@@ -1,435 +1,185 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%235b2cf6'/%3E%3Cpolygon fill='%23f6f5f2' points='42.7,28.6 55.6,45.1 72,39.1 60.9,52 66.9,60.7 53,61.1 43.5,71.5 42.6,61.5 28.2,61.4 43,51.6'/%3E%3C/svg%3E">
-<title>Arquivo imnotkiq</title>
-<meta name="description" content="imnotkiq, fotografia automotiva por Kaique Mota, Ribeirão Preto. Fotos dos eventos liberadas em drive.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..900;1,400..900&display=swap">
-<style>
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body{margin:0}
-img{max-width:100%}
-[hidden]{display:none!important}
-/* Layout: pôster suíço em blocos, como as referências. Grade de 12 colunas, painéis de cor chapada,
-   hachuras, marcas de corte e "+" de registro. Preto, roxo, cinza claro e laranja de destaque. */
-:root{
-  --black:#0b0b0c;
-  --violet:#5b2cf6;
-  --violet-hi:#a891ff;
-  --grey:#e4e2de;
-  --grey-2:#d3d0cb;
-  --line:rgba(11,11,12,.16);
-  --orange:#ff5418;
-  --white:#f6f5f2;
-  --f:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
-  color-scheme:dark;
-}
-*,*::before,*::after{box-sizing:border-box}
-html{background:var(--black)}
-body{background:var(--black);color:var(--white);font-family:var(--f);font-size:16px;line-height:1.3;-webkit-font-smoothing:antialiased;overflow-x:clip}
-a{color:inherit;text-decoration:none}
-:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
-p,h1,h2,h3,ul,ol{margin:0}
-ul,ol{list-style:none;padding:0}
-.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-@media (min-width:760px){.wrap{padding-left:max(48px,env(safe-area-inset-left,0px));padding-right:max(48px,env(safe-area-inset-right,0px))}}
-.inner{max-width:1360px;margin-inline:auto;position:relative}
-
-/* ---------- peças do sistema ---------- */
-.lbl{font-size:12px;font-weight:700;text-transform:uppercase;line-height:1.15;letter-spacing:0}
-.big{font-weight:800;letter-spacing:-.055em;line-height:.84}
-.hatch{background-image:repeating-linear-gradient(-45deg,var(--hc,var(--black)) 0 3px,transparent 3px 12px)}
-.plus{position:absolute;font-weight:300;font-size:30px;line-height:1;pointer-events:none}
-.crop{position:relative}
-.crop::before{content:"";position:absolute;inset:-11px;pointer-events:none;--c:var(--cm,var(--black));
-  background:
-    linear-gradient(var(--c),var(--c)) 0 0/8px 1.5px,linear-gradient(var(--c),var(--c)) 0 0/1.5px 8px,
-    linear-gradient(var(--c),var(--c)) 100% 0/8px 1.5px,linear-gradient(var(--c),var(--c)) 100% 0/1.5px 8px,
-    linear-gradient(var(--c),var(--c)) 0 100%/8px 1.5px,linear-gradient(var(--c),var(--c)) 0 100%/1.5px 8px,
-    linear-gradient(var(--c),var(--c)) 100% 100%/8px 1.5px,linear-gradient(var(--c),var(--c)) 100% 100%/1.5px 8px;
-  background-repeat:no-repeat}
-.gridlines{background-image:linear-gradient(to right,var(--line) 1px,transparent 1px),linear-gradient(to bottom,var(--line) 1px,transparent 1px);background-size:calc(100% / 5) 100%,100% calc(100% / 4)}
-.duo{position:relative;overflow:hidden;background:var(--violet)}
-.duo img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.2);mix-blend-mode:luminosity;transition:filter .35s}
-.duo:hover img,a:focus-visible .duo img{filter:none;mix-blend-mode:normal}
-.dots{background-image:radial-gradient(circle,var(--dc,rgba(246,245,242,.45)) 1.2px,transparent 1.6px);background-size:22px 22px}
-.chip{display:inline-flex;align-items:center;justify-content:center;min-width:46px;padding:6px 12px;border-radius:999px;background:var(--black);color:var(--white);font-size:12px;font-weight:700}
-
-/* ---------- topo ---------- */
-.top{background:var(--violet);padding-block:22px 0}
-.top-in{display:flex;justify-content:space-between;align-items:center;gap:16px}
-.tagbar{--cm:var(--black);display:inline-flex;justify-content:space-between;gap:64px;min-width:min(100%,260px);background:var(--black);color:var(--white);padding:11px 16px}
-.top-r{display:flex;gap:28px;align-items:center;color:var(--black)}
-.top-r .where{display:none}
-@media (min-width:900px){.top-r .where{display:block}}
-.top-r a:hover{opacity:.6}
-
-/* ---------- hero ---------- */
-.hero{background:var(--violet);padding-block:64px 150px;overflow:hidden;color:var(--black)}
-.comp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;position:relative;z-index:1}
-.pA{grid-column:1 / -1;position:relative;background-color:var(--grey);min-height:400px;display:flex;flex-direction:column;justify-content:center;padding:40px 18px 96px 64px}
-.tab{position:absolute;left:0;top:0;bottom:0;width:44px;background:var(--black);color:var(--white);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:56px;padding-block:18px}
-.tab span{writing-mode:vertical-rl;transform:rotate(180deg)}
-.tab::before{content:"";position:absolute;top:18px;left:50%;width:12px;height:80px;transform:translateX(-50%);--hc:var(--white)}
-.name{font-size:clamp(4.4rem,19vw,12.5rem)}
-.name span{display:block}
-.pA .cap{position:absolute;right:18px;bottom:18px;max-width:17ch;font-size:clamp(1.1rem,.9rem + .9vw,1.9rem);font-weight:600;letter-spacing:-.025em;line-height:1}
-.strip{position:absolute;left:44px;bottom:0;width:min(34%,260px);height:44px;background:var(--black)}
-.strip .plus{color:var(--white);font-size:22px;top:11px}
-.pB{background:var(--black);color:var(--white);padding:18px;display:flex;flex-direction:column;gap:10px;min-height:200px}
-.pB .logo{width:40px;height:40px;margin-bottom:auto}
-.pB .t{font-size:22px;font-weight:600;letter-spacing:-.02em}
-.pB .s{font-size:12px;color:rgba(246,245,242,.7);max-width:22ch}
-.pC{background:var(--orange);padding:18px;display:flex;flex-direction:column;gap:14px;min-height:200px}
-.pC .rule{border-top:2px solid var(--black);padding-top:8px}
-.pC .hatch{height:26px}
-.pC .t{margin-top:auto;font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:1}
-.pD{grid-column:1 / -1;position:relative;min-height:440px;color:var(--black)}
-.pD .duo{position:absolute;inset:0}
-.pD .wire{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.pD::after{content:"";position:absolute;left:0;right:0;bottom:0;height:58px;background:var(--violet-hi)}
-.pD .bar,.pD .go{z-index:1}
-.pD .code{position:absolute;left:14px;top:18px;writing-mode:vertical-rl;font-size:clamp(4rem,9vw,7.5rem);color:var(--black);mix-blend-mode:normal}
-.pD .bar{position:absolute;left:96px;right:18px;bottom:62px;border-top:6px solid var(--black);padding-top:10px;font-size:18px;font-weight:700;letter-spacing:-.02em}
-.pD .go{position:absolute;left:96px;bottom:22px;border-top:2px solid var(--black);padding-top:6px}
-.pD:hover .go{background:var(--black);color:var(--white)}
-@media (min-width:1000px){
-  .comp{grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(4,minmax(150px,auto))}
-  .pA{grid-column:1 / 8;grid-row:1 / 5;min-height:600px;padding-left:76px}
-  .pB{grid-column:8 / 10;grid-row:1 / 3}
-  .pC{grid-column:8 / 10;grid-row:3 / 5}
-  .pD{grid-column:10 / 13;grid-row:1 / 5;min-height:0}
-}
-.deco{position:absolute;pointer-events:none;z-index:0}
-.d1{left:7%;top:-110px;width:150px;height:240px;--hc:var(--violet-hi)}
-.d2{right:-48px;top:-70px;width:min(30vw,380px);height:240px}
-.d3{left:30%;bottom:-74px;width:min(22vw,300px);height:22px}
-.d4{left:30%;bottom:-116px;width:min(22vw,300px);height:46px}
-.d5{left:56%;bottom:-130px;width:min(20vw,280px);display:flex;flex-direction:column;gap:14px}
-.d5 i{display:block;background:var(--black);height:50px}
-.d5 i:nth-child(2){height:20px}.d5 i:nth-child(3){height:9px;margin-top:40px}
-.d6{right:0;bottom:-74px;width:min(20vw,280px);height:22px}
-@media (max-width:999px){.d1,.d2{display:none}.d5{left:auto;right:0}.d3,.d4{left:0}}
-.hline{position:absolute;left:-200%;right:-200%;top:50%;height:2px;background:var(--black);z-index:0}
-
-/* ---------- galerias ---------- */
-.gal{padding-block:110px;background:var(--black)}
-#galerias{scroll-margin-top:12px}
-.cards{display:grid;grid-template-columns:minmax(0,1fr);gap:64px 56px;align-items:start}
-@media (min-width:1000px){.cards{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.cR{margin-top:150px}}
-.cL,.cR{--cm:var(--white)}
-.cL-top{position:relative;background:var(--violet);color:var(--white);padding:48px 120px 40px 40px;min-height:380px;display:flex;flex-direction:column}
-.cL-top .hb{position:absolute;right:0;top:0;bottom:0;width:96px;--hc:var(--black);background-color:var(--violet)}
-.cL-top .hb::after{content:"";position:absolute;right:-8px;top:0;height:56%;width:8px;background:var(--orange)}
-.cL-top .row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.cL-top .date{background:var(--violet);padding:6px 10px;margin:-6px -10px 0 0;position:relative;z-index:1}
-.cL-top .focus{margin-top:auto;color:var(--orange);font-size:clamp(1rem,.9rem + .5vw,1.4rem);font-weight:500;letter-spacing:-.02em}
-.cL-top h2{margin-top:auto;font-size:clamp(3rem,7.4vw,6.4rem);text-transform:uppercase}
-.cL-top .foot{display:flex;justify-content:space-between;margin-top:56px}
-.cL-bot{background:#f1f0ed;color:var(--black);padding:40px}
-.heads{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
-.heads b{display:block;font-size:clamp(1.8rem,1.3rem + 1.6vw,2.6rem);font-weight:700;letter-spacing:-.04em;line-height:1;margin-top:4px}
-.evlist{border-top:3px solid var(--black)}
-.evc{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 28px 24px 30px;background:var(--grey-2);transition:transform .2s}
-.evc:nth-child(3n+2){background:var(--violet);color:var(--white)}
-.evc:nth-child(3n+3){background:var(--orange)}
-.evc .n{display:block;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.4rem);font-weight:700;letter-spacing:-.045em;line-height:1;margin-top:6px}
-a.evc:hover{transform:translateX(6px)}
-.evc .chip{flex:none}
-.evc:nth-child(3n+2) .chip{background:var(--white);color:var(--violet)}
-
-.cR-top{position:relative;background-color:#f1f0ed;color:var(--black);padding:40px 40px 0}
-.cR-top .row{display:flex;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:3px solid var(--black)}
-.cR-top .kicker{margin-top:30px;color:var(--orange);font-size:clamp(1rem,.9rem + .4vw,1.3rem);font-weight:600;text-transform:uppercase;letter-spacing:-.01em}
-.cR-top h3{margin-top:8px;font-size:clamp(3rem,7vw,6rem)}
-.cR-top h3 sup{font-size:.42em;color:#8a8780;letter-spacing:-.03em;vertical-align:.95em;margin-left:.06em}
-.cR-top .meta{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:18px;padding-bottom:16px;border-bottom:3px solid var(--black);font-size:18px;font-weight:600;letter-spacing:-.02em}
-.cR-top .meta .v{color:var(--violet)}
-.cR-top .meta i{font-style:normal;color:var(--black)}
-.photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:26px -40px 0;position:relative}
-.photos .duo{aspect-ratio:3/4}
-.photos .plus{color:var(--black);top:-24px}
-.cR-bot{position:relative;background-color:var(--orange);color:var(--black);min-height:330px;overflow:hidden;padding:30px 40px}
-.cR-bot .gl{position:absolute;inset:0;background-size:calc(100% / 5) 100%,100% calc(100% / 4)}
-.cR-bot .cell{position:relative;display:inline-block;border-top:2px solid var(--black);padding-top:6px;margin-right:48px}
-.cR-bot .cell b{display:block;font-size:30px;letter-spacing:-.04em;line-height:1.05}
-.cR-bot .hb{position:absolute;right:0;top:0;width:28%;height:140px}
-.cR-bot .cta{position:relative;display:inline-block;margin-top:0;border-top:2px solid var(--black);padding-top:6px}
-a.cta:hover{background:var(--black);color:var(--orange)}
-.cR-bot .giant{position:absolute;left:18%;bottom:-.2em;font-size:clamp(9rem,20vw,17rem);color:var(--black);white-space:nowrap}
-
-/* ---------- como pegar ---------- */
-.how{position:relative;background:#2a0fa8;padding-block:96px 0;overflow:hidden}
-.how .grid3{display:grid;grid-template-columns:minmax(0,1fr);gap:44px;position:relative;z-index:2;padding-bottom:40px}
-@media (min-width:1000px){.how .grid3{grid-template-columns:minmax(0,1fr) minmax(0,400px) minmax(0,1fr);gap:40px}}
-.tl{display:flex;align-items:center;gap:0;margin-bottom:44px}
-.tl i{width:14px;height:14px;border-radius:50%;background:var(--orange);flex:none}
-.tl span{flex:1;height:2px;background:var(--orange)}
-.tl.w i{background:var(--white)}.tl.w span{background:var(--white)}
-.tl-l{display:flex;justify-content:space-between;color:var(--violet-hi);font-size:11px;font-weight:600;margin-bottom:34px}
-.how h2{font-size:clamp(2.6rem,2rem + 2.6vw,4.6rem);font-weight:600;letter-spacing:-.045em;line-height:.95}
-.how h2 em{font-style:normal;color:var(--violet-hi)}
-.how .intro{margin-bottom:40px;font-size:20px;font-weight:500;letter-spacing:-.02em;max-width:24ch}
-.how .dots{height:170px;margin-top:40px}
-.ocard{position:relative;background:var(--orange);color:var(--white);padding:28px 30px 0;overflow:hidden;box-shadow:0 0 0 12px #2a0fa8}
-.ocard .row{display:flex;justify-content:space-between;align-items:flex-start}
-.ocard .logo{width:42px;height:42px}
-.ocard .dots{--dc:rgba(246,245,242,.75);height:72px;margin:24px 0 0}
-.ocard h3{margin-top:24px;font-size:clamp(2.4rem,2rem + 1.4vw,3.4rem);font-weight:600;letter-spacing:-.045em;line-height:.95}
-.ocard ol{margin-top:26px}
-.ocard li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-block:14px;border-top:1.5px solid rgba(246,245,242,.85)}
-.ocard li b{font-size:40px;font-weight:600;letter-spacing:-.05em;line-height:1}
-.ocard li span{text-align:right}
-.ocard .huge{display:block;margin:10px 0 -.14em -.04em;font-size:12rem;line-height:.8;color:var(--white)}
-.side-r p{font-size:20px;font-weight:500;letter-spacing:-.02em;max-width:22ch}
-.side-r .ig{display:inline-flex;align-items:center;gap:14px;margin-top:22px;color:var(--violet-hi)}
-.side-r .ig i{display:block;width:140px;height:2px;background:currentColor;position:relative}
-.side-r .ig i::after{content:"";position:absolute;right:0;top:-6px;width:2px;height:14px;background:currentColor}
-.side-r .ig:hover{color:var(--white)}
-.side-r .arrow{display:block;width:120px;height:120px;margin:60px 0 0 auto;color:var(--orange)}
-.side-r .dots{height:120px;margin-top:20px}
-.sync{position:relative;z-index:1;margin-top:-17vw;font-size:30vw;color:var(--white);white-space:nowrap;line-height:.78;letter-spacing:-.07em;text-transform:uppercase;transform:translateX(-2vw)}
-@media (min-width:1000px){.sync{margin-top:-15vw}}
-
-/* ---------- rodapé ---------- */
-.foot-bar{background:var(--black);padding-block:28px}
-.foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 28px;color:var(--white)}
-.foot-in a:hover{color:var(--orange)}
-.foot-hb{height:22px;--hc:var(--violet);margin-top:24px}
-
-@media (max-width:640px){
-  .pA{padding:28px 14px 84px 58px;min-height:340px}
-  .cL-top{padding:32px 104px 28px 22px;min-height:440px}
-  .cL-top .hb{width:72px}
-  .cL-bot,.cR-top{padding:24px}
-  .cR-bot{padding:24px}
-  .photos{margin-inline:-24px}
-  .ocard{padding-inline:22px}
-  .pD .bar,.pD .go{left:84px}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>imnotkiq · Fotografia automotiva</title>
+    <meta name="description" content="imnotkiq, fotografia automotiva por Kaique Mota em Ribeirão Preto. Fotos dos eventos liberadas em drive.">
+    <meta name="theme-color" content="#5b2cf6">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="imnotkiq · Fotografia automotiva">
+    <meta property="og:description" content="Fotos dos eventos, no drive.">
+    <meta property="og:image" content="https://okaiquemota.github.io/imnotkiq/fotos/ultimate-drift-3.jpg">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%235b2cf6'/%3E%3Cpolygon fill='%23f6f5f2' points='42.7,28.6 55.6,45.1 72,39.1 60.9,52 66.9,60.7 53,61.1 43.5,71.5 42.6,61.5 28.2,61.4 43,51.6'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..900;1,400..900&display=swap">
+    <link rel="stylesheet" href="assets/css/site.css">
+    <script>
+        // Liga o movimento antes da pintura: a pagina nasce pronta para animar.
+        // Se o visitante pedir menos movimento, nada disso entra e o layout fica parado.
+        (function () {
+            var html = document.documentElement;
+            try {
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    html.classList.add('anima-pre');
+                    if (!sessionStorage.getItem('imnotkiq_intro')) html.classList.add('intro-ativa');
+                }
+            } catch (e) {}
+        })();
+    </script>
 </head>
 <body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="estrela" viewBox="26 26 48 48"><polygon points="42.7,28.6 55.6,45.1 72,39.1 60.9,52 66.9,60.7 53,61.1 43.5,71.5 42.6,61.5 28.2,61.4 43,51.6" fill="currentColor"/></symbol>
+    </svg>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <symbol id="star" viewBox="26 26 48 48"><polygon points="42.7,28.6 55.6,45.1 72,39.1 60.9,52 66.9,60.7 53,61.1 43.5,71.5 42.6,61.5 28.2,61.4 43,51.6" fill="currentColor"/></symbol>
-</svg>
-
-<header class="top wrap">
-  <div class="inner top-in">
-    <span class="tagbar crop lbl"><span>001</span><span>imnotkiq</span></span>
-    <div class="top-r lbl">
-      <a href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener">Instagram ↗</a>
+    <div class="intro" aria-hidden="true">
+        <svg class="intro-estrela"><use href="#estrela"/></svg>
+        <span class="intro-tag lbl"><span>001</span><span>imnotkiq</span></span>
     </div>
-  </div>
-</header>
+    <div class="cursor" aria-hidden="true"></div>
+    <div class="cursor-anel" aria-hidden="true"><span></span></div>
 
-<main>
-  <!-- HERO -->
-  <section class="hero wrap" aria-label="Apresentação">
-    <div class="inner">
-      <span class="hline" aria-hidden="true"></span>
-      <span class="deco d1 hatch" aria-hidden="true"><span class="plus" style="left:64px;top:110px">+</span></span>
-      <span class="deco d2 hatch" aria-hidden="true"></span>
-      <div class="comp">
-        <div class="pA gridlines crop">
-          <div class="tab lbl" aria-hidden="true"><span>Kaique Mota</span></div>
-          <h1 class="name big" aria-label="imnotkiq"><span>imnot</span><span>kiq</span></h1>
-          <p class="cap">Fotos dos eventos, no drive.</p>
-          <div class="strip" aria-hidden="true"><span class="plus" style="left:16px">+</span><span class="plus" style="right:16px">+</span></div>
+    <header class="topo wrap">
+        <div class="inner topo-in">
+            <a class="tagbar crop lbl" href="#inicio"><span>001</span><span>imnotkiq</span></a>
+            <a class="topo-link lbl" href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener" data-magnetico>Instagram ↗</a>
         </div>
-        <div class="pB">
-          <svg class="logo" aria-hidden="true"><use href="#star"/></svg>
-          <p class="s">Fotografia automotiva<br>Ribeirão Preto, SP</p>
+    </header>
+
+    <main id="inicio">
+        <!-- Topo: painéis em blocos -->
+        <section class="hero wrap" aria-label="Apresentação">
+            <div class="inner">
+                <span class="hline" aria-hidden="true"></span>
+                <span class="deco d1 hatch" data-vel="-60" aria-hidden="true"><span class="plus">+</span></span>
+                <span class="deco d2 hatch" data-vel="40" aria-hidden="true"></span>
+                <div class="comp">
+                    <div class="pA gridlines crop">
+                        <div class="tab lbl" aria-hidden="true"><span>Kaique Mota</span></div>
+                        <h1 class="name big" aria-label="imnotkiq"><span>imnot</span><span>kiq</span></h1>
+                        <p class="cap">Fotos dos eventos, no drive.</p>
+                        <div class="strip" aria-hidden="true"><span class="plus">+</span><span class="plus">+</span></div>
+                    </div>
+                    <div class="pB">
+                        <button class="logo-botao" type="button" aria-label="Estrela do imnotkiq"><svg class="logo" aria-hidden="true"><use href="#estrela"/></svg></button>
+                        <p class="s">Fotografia automotiva<br>Ribeirão Preto, SP</p>
+                    </div>
+                    <div class="pC">
+                        <p class="rule lbl" id="pc-k">Último evento</p>
+                        <div class="hatch pc-hatch" aria-hidden="true"></div>
+                        <p class="t" id="pc-t"></p>
+                    </div>
+                    <a class="pD" id="pd" href="#destaque" data-cursor="Ver">
+                        <span class="duo"><img id="pd-img" alt="" width="215" height="289"></span>
+                        <svg class="wire" viewBox="0 0 300 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                            <g fill="none" stroke="#0b0b0c" stroke-width="1.6">
+                                <ellipse cx="170" cy="380" rx="150" ry="230" transform="rotate(-24 170 380)" stroke-dasharray="10 9"/>
+                                <ellipse class="desenha" cx="170" cy="380" rx="128" ry="206" transform="rotate(-24 170 380)"/>
+                                <path class="desenha" d="M178 150 L118 420 M178 150 L250 410 M178 150 L190 440"/>
+                                <ellipse cx="184" cy="424" rx="68" ry="20" stroke-dasharray="7 6"/>
+                                <path d="M20 590 L290 120" stroke-dasharray="14 10" stroke="#f6f5f2"/>
+                            </g>
+                        </svg>
+                        <span class="code big" id="pd-code" aria-hidden="true"></span>
+                        <span class="go lbl">Ver galeria →</span>
+                    </a>
+                </div>
+                <span class="deco d3 hatch" data-vel="30" aria-hidden="true"></span>
+                <span class="deco d4 hatch" data-vel="30" aria-hidden="true"></span>
+                <span class="deco d5" data-vel="-30" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="deco d6 hatch" data-vel="50" aria-hidden="true"></span>
+            </div>
+        </section>
+
+        <!-- Faixa que corre -->
+        <div class="faixa" aria-hidden="true">
+            <div class="faixa-linha" id="faixa-1"></div>
+            <div class="faixa-linha contorno" id="faixa-2"></div>
         </div>
-        <div class="pC">
-          <p class="rule lbl" id="pc-k">Último evento</p>
-          <div class="hatch" aria-hidden="true"></div>
-          <p class="t" id="pc-t"></p>
+
+        <!-- Galerias -->
+        <section class="gal wrap" id="galerias" aria-labelledby="gal-t">
+            <div class="inner cards">
+                <div class="cL crop">
+                    <div class="cL-top">
+                        <span class="hb hatch" aria-hidden="true"></span>
+                        <span class="plus" aria-hidden="true">+</span>
+                        <h2 class="big" id="gal-t">Galerias</h2>
+                        <div class="foot lbl"><span id="gal-n"></span><span aria-hidden="true">+</span></div>
+                    </div>
+                    <div class="cL-bot">
+                        <div class="evlist" id="evlist"></div>
+                    </div>
+                </div>
+
+                <article class="cR crop" id="destaque" aria-labelledby="ft-t">
+                    <div class="cR-top gridlines">
+                        <h3 class="big" id="ft-t"></h3>
+                        <p class="meta" id="ft-meta"></p>
+                        <div class="photos" id="ft-photos"></div>
+                    </div>
+                    <div class="cR-bot">
+                        <span class="gl gridlines" aria-hidden="true"></span>
+                        <span class="hb hatch" aria-hidden="true"></span>
+                        <div id="ft-cta"></div>
+                        <span class="giant big" id="ft-giant" aria-hidden="true"></span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Como pegar -->
+        <section class="how wrap" aria-labelledby="how-t">
+            <div class="inner">
+                <div class="grid3">
+                    <div class="how-l">
+                        <div class="tl" aria-hidden="true"><i></i><span></span><i></i><span></span></div>
+                        <h2 id="how-t">Como pegar<br><em>tuas fotos</em></h2>
+                        <div class="dots" aria-hidden="true"></div>
+                    </div>
+                    <div class="ocard">
+                        <div class="row"><svg class="logo" aria-hidden="true"><use href="#estrela"/></svg></div>
+                        <div class="dots" aria-hidden="true"></div>
+                        <ol>
+                            <li><b>01</b><span class="lbl">Acha o evento</span></li>
+                            <li><b>02</b><span class="lbl">Abre o drive</span></li>
+                            <li><b>03</b><span class="lbl">Baixa no original</span></li>
+                            <li><b>04</b><span class="lbl">Marca @imnotkiq</span></li>
+                        </ol>
+                        <span class="huge big" aria-hidden="true">↗</span>
+                    </div>
+                    <div class="side-r">
+                        <div class="tl w" aria-hidden="true"><span></span><i></i><span></span><i></i></div>
+                        <a class="ig lbl" href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener" data-magnetico>Instagram <i aria-hidden="true"></i></a>
+                        <svg class="arrow" viewBox="0 0 100 100" aria-hidden="true"><path d="M18 82 L82 18 M34 18 H82 V66" fill="none" stroke="currentColor" stroke-width="12"/></svg>
+                        <div class="dots" aria-hidden="true"></div>
+                    </div>
+                </div>
+                <p class="sync big" id="sync" aria-hidden="true">imnotkiq</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="rodape wrap">
+        <div class="inner">
+            <div class="rodape-in lbl">
+                <span>© <span data-ano>2026</span> Kaique Mota</span>
+                <a href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener">@imnotkiq ↗</a>
+                <a href="https://www.instagram.com/kiq.ham/" target="_blank" rel="noopener">@kiq.ham ↗</a>
+            </div>
+            <div class="rodape-hb hatch" aria-hidden="true"></div>
         </div>
-        <a class="pD" id="pd" href="#galerias">
-          <span class="duo"><img id="pd-img" alt=""></span>
-          <svg class="wire" viewBox="0 0 300 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <g fill="none" stroke="#0b0b0c" stroke-width="1.6">
-              <ellipse cx="170" cy="380" rx="150" ry="230" transform="rotate(-24 170 380)" stroke-dasharray="10 9"/>
-              <ellipse cx="170" cy="380" rx="128" ry="206" transform="rotate(-24 170 380)"/>
-              <path d="M178 150 L118 420 M178 150 L250 410 M178 150 L190 440"/>
-              <ellipse cx="184" cy="424" rx="68" ry="20" stroke-dasharray="7 6"/>
-              <path d="M20 590 L290 120" stroke-dasharray="14 10" stroke="#f6f5f2"/>
-            </g>
-          </svg>
-          <span class="code big" id="pd-code" aria-hidden="true"></span>
-                    <span class="go lbl">Ver galeria →</span>
-        </a>
-      </div>
-      <span class="deco d3 hatch" aria-hidden="true"></span>
-      <span class="deco d4 hatch" aria-hidden="true"></span>
-      <span class="deco d5" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span class="deco d6 hatch" aria-hidden="true"></span>
-    </div>
-  </section>
+    </footer>
 
-  <!-- GALERIAS -->
-  <section class="gal wrap" id="galerias" aria-labelledby="gal-t">
-    <div class="inner cards">
-      <div class="cL crop">
-        <div class="cL-top">
-          <span class="hb hatch" aria-hidden="true"></span>
-          <span class="plus" style="left:40px;top:44px" aria-hidden="true">+</span>
-          <h2 class="big" id="gal-t">Galerias</h2>
-          <div class="foot lbl"><span id="gal-n"></span><span aria-hidden="true">+</span></div>
-        </div>
-        <div class="cL-bot">
-          <div class="evlist" id="evlist"></div>
-        </div>
-      </div>
+    <div class="aviso lbl crop" id="aviso" role="status" aria-live="polite"></div>
 
-      <article class="cR crop" id="destaque" aria-labelledby="ft-t">
-        <div class="cR-top gridlines">
-          <h3 class="big" id="ft-t"></h3>
-          <p class="meta" id="ft-meta"></p>
-          <div class="photos" id="ft-photos"></div>
-        </div>
-        <div class="cR-bot">
-          <span class="gl gridlines" aria-hidden="true"></span>
-          <span class="hb hatch" aria-hidden="true"></span>
-          <div id="ft-cta"></div>
-          <span class="giant big" id="ft-giant" aria-hidden="true"></span>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- COMO PEGAR -->
-  <section class="how wrap" aria-labelledby="how-t">
-    <div class="inner">
-      <div class="grid3">
-        <div>
-          <div class="tl" aria-hidden="true"><i></i><span></span><i></i><span></span></div>
-          <h2 id="how-t">Como pegar<br><em>tuas fotos</em></h2>
-          <div class="dots" aria-hidden="true"></div>
-        </div>
-        <div class="ocard">
-          <div class="row"><svg class="logo" aria-hidden="true"><use href="#star"/></svg></div>
-          <div class="dots" aria-hidden="true"></div>
-          <ol>
-            <li><b>01</b><span class="lbl">Acha o evento</span></li>
-            <li><b>02</b><span class="lbl">Abre o drive</span></li>
-            <li><b>03</b><span class="lbl">Baixa no original</span></li>
-            <li><b>04</b><span class="lbl">Marca @imnotkiq</span></li>
-          </ol>
-          <span class="huge big" aria-hidden="true">↗</span>
-        </div>
-        <div class="side-r">
-          <div class="tl w" aria-hidden="true"><span></span><i></i><span></span><i></i></div>
-          <a class="ig lbl" href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener">Instagram <i aria-hidden="true"></i></a>
-          <svg class="arrow" viewBox="0 0 100 100" aria-hidden="true"><path d="M18 82 L82 18 M34 18 H82 V66" fill="none" stroke="currentColor" stroke-width="12"/></svg>
-          <div class="dots" aria-hidden="true"></div>
-        </div>
-      </div>
-      <p class="sync big" aria-hidden="true">imnotkiq</p>
-    </div>
-  </section>
-</main>
-
-<footer class="foot-bar wrap">
-  <div class="inner">
-    <div class="foot-in lbl">
-      <span>© <span id="yr">2026</span> Kaique Mota</span>
-      <a href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener">@imnotkiq ↗</a>
-      <a href="https://www.instagram.com/kiq.ham/" target="_blank" rel="noopener">@kiq.ham ↗</a>
-    </div>
-    <div class="foot-hb hatch" aria-hidden="true"></div>
-  </div>
-</footer>
-
-<script>
-/* As 3 fotos do teu Instagram (Ultimate Drift). Troca pelos arquivos originais na pasta fotos/. */
-const FOTOS_ULTIMATE = ["fotos/ultimate-drift-1.jpg", "fotos/ultimate-drift-2.jpg", "fotos/ultimate-drift-3.jpg"];
-</script>
-<script>
-/* ==================================================================
-   TEUS EVENTOS — é só editar esta lista. O mais novo vira o destaque.
-
-   nome       nome do evento
-   data       "AAAA-MM-DD"  (deixa "" se ainda não tiver)
-   local      onde rolou
-   categoria  Drift, Track day, Encontro...
-   carros     carros que aparecem
-   qtd        quantas fotos tem na pasta
-   drive      link da pasta do Google Drive
-              (compartilhar → "Qualquer pessoa com o link" → Leitor).
-              Deixa "" se as fotos ainda não subiram: aparece "Fotos em breve".
-   fotos      fotos que aparecem no site. Num site teu, pode ser link de imagem: ["fotos/ud-1.jpg"]
-   ================================================================== */
-const EVENTOS = [
-  {
-    nome: "Ultimate Drift",
-    data: "",
-    local: "",
-    categoria: "Drift",
-    carros: "BMW E36, Subaru Impreza",
-    qtd: 0,
-    drive: "",
-    fotos: [FOTOS_ULTIMATE[2], FOTOS_ULTIMATE[0], FOTOS_ULTIMATE[1]],
-  },
-];
-
-(() => {
-  const $ = s => document.querySelector(s);
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const pad = n => String(n).padStart(2, '0');
-  const MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-
-  const evs = EVENTOS.map((e, i) => {
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(e.data || '').trim());
-    return { ...e, ord: i, dt: m ? new Date(+m[1], +m[2] - 1, +m[3]) : null };
-  }).sort((a, b) => (!a.dt && !b.dt) ? a.ord - b.ord : !a.dt ? -1 : !b.dt ? 1 : b.dt - a.dt);
-  evs.slice().reverse().forEach((e, i) => { e.n = i + 1; });
-  evs.forEach(e => {
-    e.code = (String(e.categoria || 'E').trim()[0] || 'E').toUpperCase() + pad(e.n);
-    e.quando = e.dt ? `${pad(e.dt.getDate())} ${MES[e.dt.getMonth()]} ${String(e.dt.getFullYear()).slice(2)}` : 'A confirmar';
-    e.link = /^https?:\/\//i.test(e.drive || '') ? e.drive : '';
-    e.fotos = Array.isArray(e.fotos) ? e.fotos.filter(Boolean) : [];
-    e.qtd = Number(e.qtd) || 0;
-  });
-  const top = evs[0];
-
-  if (top) {
-    // hero
-    $('#pc-k').textContent = `Último evento · ${top.categoria || ''}`;
-    $('#pc-t').innerHTML = esc(top.nome).replace(' ', '<br>');
-    $('#pd-code').textContent = top.code;
-    if (top.fotos[0]) { $('#pd-img').src = top.fotos[0]; $('#pd-img').alt = `${top.nome}, foto em destaque`; }
-    $('#pd').href = top.link || '#destaque';
-    if (top.link) { $('#pd').target = '_blank'; $('#pd').rel = 'noopener'; }
-
-    // destaque
-    $('#ft-t').innerHTML = `${esc(top.nome)}<sup>${pad(top.n)}</sup>`;
-    $('#ft-meta').innerHTML = `<span>${esc(top.categoria || 'Evento')}</span><i>·</i><span class="v">${esc(top.quando)}</span>`;
-    $('#ft-photos').innerHTML = top.fotos.slice(0, 3).map((src, i) => `<span class="duo"><img src="${esc(src)}" alt="${esc(top.nome)}, foto ${i + 1}" loading="lazy"></span>`).join('') + '<span class="plus" style="left:12px">+</span><span class="plus" style="right:12px">+</span>';
-    $('#ft-cta').innerHTML = top.link ? `<a class="cta lbl" href="${esc(top.link)}" target="_blank" rel="noopener">Abrir drive ↗</a>` : '<span class="cta lbl">Fotos em breve</span>';
-    $('#ft-giant').textContent = top.code;
-  } else {
-    $('#pc-t').textContent = 'Em breve';
-    $('#destaque').hidden = true;
-  }
-
-  // lista
-  $('#gal-n').textContent = `${pad(evs.length)} ${evs.length === 1 ? 'evento' : 'eventos'}`;
-  $('#evlist').innerHTML = evs.length ? evs.map(e => {
-    const tag = e.link ? 'a' : 'div';
-    const attrs = e.link ? `href="${esc(e.link)}" target="_blank" rel="noopener"` : '';
-    return `<${tag} class="evc" ${attrs}><span><span class="lbl">${esc(e.quando)}</span><span class="n">${esc(e.nome)}</span></span><span class="chip">${esc(e.code)}</span></${tag}>`;
-  }).join('') : '<div class="evc"><span class="n">Primeiro evento em breve</span></div>';
-
-  $('#yr').textContent = new Date().getFullYear();
-})();
-</script>
+    <script src="assets/js/eventos.js"></script>
+    <script src="assets/js/site.js"></script>
+    <script src="assets/js/vendor/gsap.min.js"></script>
+    <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+    <script src="assets/js/vendor/lenis.min.js"></script>
+    <script src="assets/js/anima.js"></script>
 </body>
 </html>
