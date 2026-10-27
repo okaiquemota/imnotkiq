@@ -3,61 +3,144 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>imnotkiq · Fotos dos eventos</title>
-    <meta name="description" content="imnotkiq: fotografia automotiva por Kaique Mota. As fotos dos eventos, no Drive.">
-    <meta name="theme-color" content="#0a0a0a">
+    <title>imnotkiq · Drives dos eventos</title>
+    <meta name="description" content="imnotkiq, fotografia automotiva por Kaique Mota. As fotos de cada evento, no Drive.">
+    <meta name="theme-color" content="#0b0b0c">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="imnotkiq · Fotos dos eventos">
-    <meta property="og:description" content="As fotos dos eventos, no Drive.">
-    <meta property="og:image" content="https://okaiquemota.github.io/imnotkiq/fotos/ultimate-drift-01.jpg">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Ctext x='16' y='23' font-family='Helvetica,Arial,sans-serif' font-size='20' font-weight='700' fill='%23ededed' text-anchor='middle'%3Ek%3C/text%3E%3C/svg%3E">
+    <meta property="og:title" content="imnotkiq · Drives dos eventos">
+    <meta property="og:description" content="As fotos de cada evento, no Drive.">
+    <meta property="og:image" content="https://okaiquemota.github.io/imnotkiq/fotos/ultimate-drift.jpg">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b0b0c'/%3E%3Cpolygon fill='%235b2cf6' points='42.7,28.6 55.6,45.1 72,39.1 60.9,52 66.9,60.7 53,61.1 43.5,71.5 42.6,61.5 28.2,61.4 43,51.6'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..900;1,400..900&display=swap">
     <link rel="stylesheet" href="assets/css/site.css">
+    <script>
+        // Liga o movimento antes da pintura: a pagina nasce pronta para animar.
+        // Se o visitante pedir menos movimento, nada disso entra e o layout fica parado.
+        (function () {
+            var html = document.documentElement;
+            try {
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    html.classList.add('anima-pre');
+                    if (!sessionStorage.getItem('imnotkiq_intro')) html.classList.add('intro-ativa');
+                }
+            } catch (e) {}
+        })();
+    </script>
 </head>
 <body>
-    <header class="topo">
-        <a class="marca" href="./">imnotkiq</a>
-        <a href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener">Instagram ↗</a>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="estrela" viewBox="26 26 48 48"><polygon points="42.7,28.6 55.6,45.1 72,39.1 60.9,52 66.9,60.7 53,61.1 43.5,71.5 42.6,61.5 28.2,61.4 43,51.6" fill="currentColor"/></symbol>
+    </svg>
+
+    <div class="intro" aria-hidden="true">
+        <svg class="intro-estrela"><use href="#estrela"/></svg>
+        <span class="intro-tag lbl"><span>001</span><span>imnotkiq</span></span>
+    </div>
+
+    <header class="topo wrap">
+        <div class="inner topo-in">
+            <a class="tagbar crop lbl" href="#inicio"><span>001</span><span>imnotkiq</span></a>
+            <a class="topo-link lbl" href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener" data-magnetico>Instagram ↗</a>
+        </div>
     </header>
 
-    <main>
-        <!-- O evento mais novo da lista (assets/js/eventos.js) -->
-        <section class="destaque" id="destaque" aria-label="Último evento"></section>
-
-        <!-- Os outros eventos; só aparece quando tiver mais de um -->
-        <section class="eventos" id="eventos" aria-labelledby="eventos-titulo" hidden>
-            <h2 class="secao" id="eventos-titulo">Eventos anteriores</h2>
-            <ol class="lista" id="lista"></ol>
+    <main id="inicio">
+        <!-- Topo: painéis em blocos -->
+        <section class="hero wrap" aria-label="Apresentação">
+            <div class="inner">
+                <span class="hline" aria-hidden="true"></span>
+                <span class="deco d1 hatch" data-vel="-60" aria-hidden="true"><span class="plus">+</span></span>
+                <span class="deco d2 hatch" data-vel="40" aria-hidden="true"></span>
+                <div class="comp">
+                    <div class="pA gridlines crop">
+                        <div class="tab lbl" aria-hidden="true"><span>Kaique Mota</span></div>
+                        <h1 class="name big" aria-label="imnotkiq"><span>imnot</span><span>kiq</span></h1>
+                        <p class="cap">Fotos dos eventos, no drive.</p>
+                        <div class="strip" aria-hidden="true"><span class="plus">+</span><span class="plus">+</span></div>
+                    </div>
+                    <div class="pB">
+                        <button class="logo-botao" type="button" aria-label="Estrela do imnotkiq"><svg class="logo" aria-hidden="true"><use href="#estrela"/></svg></button>
+                        <p class="s">Fotografia automotiva<br>Ribeirão Preto, SP</p>
+                    </div>
+                    <!-- Último evento: leva direto pro drive -->
+                    <a class="pC" id="pc">
+                        <span class="rule lbl" id="pc-k">Último evento</span>
+                        <span class="hatch pc-hatch" aria-hidden="true"></span>
+                        <span class="t" id="pc-t"></span>
+                        <span class="go lbl" id="pc-go"></span>
+                    </a>
+                    <a class="pD" id="pd" href="#drives">
+                        <span class="duo"><img id="pd-img" alt="" width="720" height="900"></span>
+                        <svg class="wire" viewBox="0 0 300 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                            <g fill="none" stroke="#0b0b0c" stroke-width="1.6">
+                                <ellipse cx="170" cy="380" rx="150" ry="230" transform="rotate(-24 170 380)" stroke-dasharray="10 9"/>
+                                <ellipse class="desenha" cx="170" cy="380" rx="128" ry="206" transform="rotate(-24 170 380)"/>
+                                <path class="desenha" d="M178 150 L118 420 M178 150 L250 410 M178 150 L190 440"/>
+                                <ellipse cx="184" cy="424" rx="68" ry="20" stroke-dasharray="7 6"/>
+                                <path d="M20 590 L290 120" stroke-dasharray="14 10" stroke="#f6f5f2"/>
+                            </g>
+                        </svg>
+                        <span class="code big" id="pd-code" aria-hidden="true"></span>
+                        <span class="go lbl">Todos os drives →</span>
+                    </a>
+                </div>
+                <span class="deco d3 hatch" data-vel="30" aria-hidden="true"></span>
+                <span class="deco d4 hatch" data-vel="30" aria-hidden="true"></span>
+                <span class="deco d5" data-vel="-30" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="deco d6 hatch" data-vel="50" aria-hidden="true"></span>
+            </div>
         </section>
 
-        <!-- As fotos do evento mais novo; clicar abre grande -->
-        <section class="galeria" id="galeria" aria-labelledby="galeria-titulo">
-            <div class="galeria-topo">
-                <h2 class="secao" id="galeria-titulo"></h2>
-                <a class="galeria-drive" id="galeria-drive" target="_blank" rel="noopener" hidden>Todas as fotos no Drive ↗</a>
+        <!-- Faixa que corre -->
+        <div class="faixa" aria-hidden="true">
+            <div class="faixa-linha" id="faixa-1"></div>
+            <div class="faixa-linha contorno" id="faixa-2"></div>
+        </div>
+
+        <!-- Drives: um evento por linha, cada um com o botão do drive -->
+        <section class="drv wrap" id="drives" aria-labelledby="drv-t">
+            <div class="inner drv-grid">
+                <div class="drv-cab crop">
+                    <span class="hb hatch" aria-hidden="true"></span>
+                    <span class="plus" aria-hidden="true">+</span>
+                    <h2 class="big" id="drv-t">Drives</h2>
+                    <div class="foot lbl"><span id="drv-n"></span><span aria-hidden="true">+</span></div>
+                </div>
+                <div class="drv-lista">
+                    <div class="evlist" id="evlist"></div>
+                    <p class="drv-nota lbl">Baixa no original e marca @imnotkiq quando postar.</p>
+                </div>
             </div>
-            <ul class="grade" id="grade"></ul>
+        </section>
+
+        <!-- Letreiro -->
+        <section class="fim wrap" aria-hidden="true">
+            <div class="inner">
+                <p class="sync big" id="sync">imnotkiq</p>
+            </div>
         </section>
     </main>
 
-    <footer class="base">
-        <p class="assinatura" aria-hidden="true"><span id="assinatura">imnotkiq</span></p>
-        <div class="base-linha">
-            <span>© <span data-ano>2026</span> Kaique Mota</span>
-            <a href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener">@imnotkiq</a>
-            <a href="https://www.instagram.com/kiq.ham/" target="_blank" rel="noopener">@kiq.ham</a>
+    <footer class="rodape wrap">
+        <div class="inner">
+            <div class="rodape-in lbl">
+                <span>© <span data-ano>2026</span> Kaique Mota</span>
+                <a href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener">@imnotkiq ↗</a>
+                <a href="https://www.instagram.com/kiq.ham/" target="_blank" rel="noopener">@kiq.ham ↗</a>
+            </div>
+            <div class="rodape-hb hatch" aria-hidden="true"></div>
         </div>
     </footer>
 
-    <!-- Foto grande -->
-    <dialog class="visor" id="visor" aria-label="Foto">
-        <img class="visor-foto" id="visor-foto" alt="">
-        <button class="visor-btn visor-fechar" id="visor-fechar" type="button">Fechar</button>
-        <button class="visor-btn visor-ant" id="visor-ant" type="button" aria-label="Foto anterior">←</button>
-        <button class="visor-btn visor-prox" id="visor-prox" type="button" aria-label="Próxima foto">→</button>
-        <span class="visor-conta" id="visor-conta"></span>
-    </dialog>
+    <div class="aviso lbl crop" id="aviso" role="status" aria-live="polite"></div>
 
     <script src="assets/js/eventos.js"></script>
     <script src="assets/js/site.js"></script>
+    <script src="assets/js/vendor/gsap.min.js"></script>
+    <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+    <script src="assets/js/vendor/lenis.min.js"></script>
+    <script src="assets/js/anima.js"></script>
 </body>
 </html>
