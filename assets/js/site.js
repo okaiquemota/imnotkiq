@@ -1,113 +1,160 @@
-/* -------------------------------------------------------------------------
-   Monta a pagina a partir de eventos.js e cuida do que nao e animacao:
-   ano do rodape, letreiro do tamanho da tela e rolagem para as secoes.
-   As animacoes ficam no anima.js.
-------------------------------------------------------------------------- */
-(() => {
-    const $ = (s) => document.querySelector(s);
-    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const pad = (n) => String(n).padStart(2, '0');
-    const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+/* Monta a página a partir de window.IMNOTKIQ_EVENTOS (assets/js/eventos.js). */
+(function () {
+    'use strict';
 
-    // ---------- Eventos ----------
-    const evs = (window.IMNOTKIQ_EVENTOS || []).map((e, i) => {
-        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(e.data || '').trim());
-        return { ...e, ord: i, dt: m ? new Date(+m[1], +m[2] - 1, +m[3]) : null };
-    }).sort((a, b) => (!a.dt && !b.dt) ? a.ord - b.ord : !a.dt ? -1 : !b.dt ? 1 : b.dt - a.dt);
-    evs.slice().reverse().forEach((e, i) => { e.n = i + 1; });
-    evs.forEach((e) => {
-        e.code = (String(e.categoria || 'E').trim()[0] || 'E').toUpperCase() + pad(e.n);
-        e.quando = e.dt ? `${pad(e.dt.getDate())} ${MES[e.dt.getMonth()]} ${String(e.dt.getFullYear()).slice(2)}` : 'A confirmar';
-        e.link = /^https?:\/\//i.test(e.drive || '') ? e.drive : '';
-        e.fotos = Array.isArray(e.fotos) ? e.fotos.filter(Boolean) : [];
-    });
-    window.IMNOTKIQ = { evs };
+    var eventos = window.IMNOTKIQ_EVENTOS || [];
+    var ultimo = eventos[0];
+    var MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 
-    const top = evs[0];
-    if (top) {
-        $('#pc-k').textContent = `Último evento · ${top.categoria || ''}`;
-        $('#pc-t').innerHTML = esc(top.nome).replace(' ', '<br>');
-        $('#pd-code').textContent = top.code;
-        if (top.fotos[0]) {
-            $('#pd-img').src = top.fotos[0];
-            $('#pd-img').alt = `${top.nome}, foto em destaque`;
-        }
-        $('#ft-t').innerHTML = `${esc(top.nome)}<sup>${pad(top.n)}</sup>`;
-        $('#ft-meta').innerHTML = `<span>${esc(top.categoria || 'Evento')}</span><i>·</i><span class="v">${esc(top.quando)}</span>`;
-        $('#ft-photos').innerHTML = top.fotos.slice(0, 3).map((src, i) => (
-            `<span class="duo" data-cursor="${top.link ? 'Drive ↗' : 'Em breve'}"><img src="${esc(src)}" alt="${esc(top.nome)}, foto ${i + 1}" width="215" height="289" loading="lazy" decoding="async"></span>`
-        )).join('') + '<span class="plus">+</span><span class="plus">+</span>';
-        $('#ft-cta').innerHTML = top.link
-            ? `<a class="cta lbl" href="${esc(top.link)}" target="_blank" rel="noopener" data-magnetico>Abrir drive ↗</a>`
-            : '<span class="cta lbl">Fotos em breve</span>';
-        $('#ft-giant').textContent = top.code;
-        if (top.link) {
-            $('#pd').href = top.link;
-            $('#pd').target = '_blank';
-            $('#pd').rel = 'noopener';
-            $('#pd').dataset.cursor = 'Drive ↗';
-        }
-    } else {
-        $('#pc-t').textContent = 'Em breve';
-        $('#destaque').hidden = true;
+    function el(tag, classe, texto) {
+        var e = document.createElement(tag);
+        if (classe) e.className = classe;
+        if (texto != null) e.textContent = texto;
+        return e;
+    }
+    function formataData(iso) {
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+        return m ? Number(m[3]) + ' ' + MESES[Number(m[2]) - 1] + ' ' + m[1] : '';
+    }
+    function info(ev) {
+        return [ev.categoria, ev.local, formataData(ev.data)].filter(Boolean).join(' · ');
+    }
+    function abreFora(a, href) {
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        return a;
+    }
+    function quandoCarregar(img) {
+        function pronto() { img.classList.add('carregou'); }
+        if (img.complete) pronto();
+        else { img.addEventListener('load', pronto); img.addEventListener('error', pronto); }
     }
 
-    $('#gal-n').textContent = `${pad(evs.length)} ${evs.length === 1 ? 'evento' : 'eventos'}`;
-    $('#evlist').innerHTML = evs.length ? evs.map((e) => {
-        const tag = e.link ? 'a' : 'div';
-        const attrs = e.link ? `href="${esc(e.link)}" target="_blank" rel="noopener" data-cursor="Drive ↗"` : '';
-        return `<${tag} class="evc" ${attrs}><span><span class="lbl">${esc(e.quando)}</span><span class="n">${esc(e.nome)}</span></span><span class="chip">${esc(e.code)}</span></${tag}>`;
-    }).join('') : '<div class="evc"><span class="n">Primeiro evento em breve</span></div>';
+    document.querySelectorAll('[data-ano]').forEach(function (e) { e.textContent = new Date().getFullYear(); });
 
-    // Faixa: o nome e os eventos, separados pela estrela
-    const estrela = '<svg class="faixa-estrela" aria-hidden="true"><use href="#estrela"/></svg>';
-    const itens = ['imnotkiq', ...evs.map((e) => e.nome)];
-    const volta = itens.map((t) => `<span class="item">${esc(t)}${estrela}</span>`).join('');
-    ['#faixa-1', '#faixa-2'].forEach((id) => { $(id).innerHTML = volta.repeat(6); });
-
-    document.querySelectorAll('[data-ano]').forEach((el) => { el.textContent = new Date().getFullYear(); });
-
-    // ---------- Letreiro gigante do tamanho da largura ----------
-    // Mede a largura real do texto (as fontes variam por navegador) e corrige o tamanho.
-    (() => {
-        const letreiro = $('#sync');
-        if (!letreiro) return;
-        let larguraVista = 0;
-        const ajustar = () => {
-            letreiro.style.fontSize = '';
-            const faixa = document.createRange();
-            faixa.selectNodeContents(letreiro);
-            const ocupa = faixa.getBoundingClientRect().width;
-            const cabe = letreiro.parentElement.clientWidth * 1.06; // passa um pouco da borda, cortado de proposito
-            if (ocupa && cabe) letreiro.style.fontSize = `${(parseFloat(getComputedStyle(letreiro).fontSize) * cabe) / ocupa}px`;
-        };
-        document.fonts?.ready.then(ajustar);
-        window.addEventListener('load', ajustar);
-        if (window.ResizeObserver) {
-            // so a largura importa: a altura muda com o proprio ajuste
-            new ResizeObserver(([item]) => {
-                if (Math.round(item.contentRect.width) === larguraVista) return;
-                larguraVista = Math.round(item.contentRect.width);
-                ajustar();
-            }).observe(letreiro.parentElement);
+    // ---------- Último evento ----------
+    var destaque = document.getElementById('destaque');
+    if (ultimo) {
+        var texto = el('div', 'destaque-texto');
+        texto.append(el('p', 'rotulo', 'Último evento'), el('h1', 'evento', ultimo.nome));
+        if (info(ultimo)) texto.append(el('p', 'meta', info(ultimo)));
+        if (ultimo.drive) {
+            var botao = abreFora(el('a', 'botao', 'Ver as fotos no Drive'), ultimo.drive);
+            botao.append(el('span', 'seta', '↗'));
+            texto.append(botao);
+        } else {
+            texto.append(el('span', 'botao em-breve', 'Fotos em breve'));
         }
-    })();
+        destaque.append(texto);
 
-    // ---------- Links para secoes: rolam sem "#" no endereco ----------
-    // O anima.js troca esta funcao pela rolagem suave do Lenis.
-    const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.IMNOTKIQ_ROLAR = (alvo) => alvo.scrollIntoView({ behavior: reduzir ? 'auto' : 'smooth', block: 'start' });
-    document.addEventListener('click', (event) => {
-        const link = event.target.closest('a[href^="#"]');
-        if (!link || event.metaKey || event.ctrlKey || event.shiftKey) return;
-        const alvo = document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
-        if (!alvo) return;
-        event.preventDefault();
-        window.IMNOTKIQ_ROLAR(alvo);
+        if (ultimo.fotos && ultimo.fotos.length) {
+            var capa = el('figure', 'destaque-foto');
+            var img = new Image(1080, 1350);
+            img.src = ultimo.fotos[0];
+            img.alt = ultimo.nome;
+            img.fetchPriority = 'high';
+            capa.append(img);
+            destaque.append(capa);
+        }
+    }
+
+    // ---------- Eventos anteriores ----------
+    if (eventos.length > 1) {
+        var lista = document.getElementById('lista');
+        eventos.slice(1).forEach(function (ev, k) {
+            var li = el('li');
+            var linha = ev.drive ? abreFora(el('a', 'linha'), ev.drive) : el('div', 'linha');
+            linha.append(
+                el('span', 'num', String(eventos.length - k - 1).padStart(2, '0')),
+                el('span', 'nome', ev.nome),
+                el('span', 'info', info(ev)),
+                el('span', 'acao', ev.drive ? 'Fotos ↗' : 'Em breve')
+            );
+            li.append(linha);
+            lista.append(li);
+        });
+        document.getElementById('eventos').hidden = false;
+    }
+
+    // ---------- Galeria ----------
+    var fotos = (ultimo && ultimo.fotos) || [];
+    if (!fotos.length) {
+        document.getElementById('galeria').hidden = true;
+    } else {
+        document.getElementById('galeria-titulo').textContent = ultimo.nome + ' · seleção';
+        if (ultimo.drive) abreFora(document.getElementById('galeria-drive'), ultimo.drive).hidden = false;
+
+        var grade = document.getElementById('grade');
+        fotos.forEach(function (src, k) {
+            var li = el('li');
+            var quadro = el('button', 'quadro');
+            quadro.type = 'button';
+            quadro.setAttribute('aria-label', 'Abrir foto ' + (k + 1) + ' de ' + fotos.length);
+            var img = new Image(1080, 1350);
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            img.alt = '';
+            img.src = src;
+            quandoCarregar(img);
+            quadro.append(img);
+            quadro.addEventListener('click', function () { abre(k); });
+            li.append(quadro);
+            grade.append(li);
+        });
+    }
+
+    // ---------- Foto grande ----------
+    var visor = document.getElementById('visor');
+    var vFoto = document.getElementById('visor-foto');
+    var vConta = document.getElementById('visor-conta');
+    var atual = 0;
+
+    function mostra(k) {
+        atual = (k + fotos.length) % fotos.length;
+        vFoto.src = fotos[atual];
+        vFoto.alt = ultimo.nome + ', foto ' + (atual + 1) + ' de ' + fotos.length;
+        vConta.textContent = (atual + 1) + ' / ' + fotos.length;
+        new Image().src = fotos[(atual + 1) % fotos.length];
+    }
+    function abre(k) {
+        if (typeof visor.showModal !== 'function') { window.open(fotos[k], '_blank', 'noopener'); return; }
+        mostra(k);
+        visor.showModal();
+    }
+
+    document.getElementById('visor-fechar').addEventListener('click', function () { visor.close(); });
+    document.getElementById('visor-ant').addEventListener('click', function () { mostra(atual - 1); });
+    document.getElementById('visor-prox').addEventListener('click', function () { mostra(atual + 1); });
+    visor.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') mostra(atual - 1);
+        else if (e.key === 'ArrowRight') mostra(atual + 1);
     });
 
-    // Para quem abrir o console
-    console.log('%c✦ imnotkiq %c se tu tá lendo isso, me chama na DM: @imnotkiq',
-        'background:#5b2cf6;color:#f6f5f2;font:700 14px "Inter Tight",sans-serif;padding:6px 10px',
-        'color:#ff5418;font:600 12px "Inter Tight",sans-serif');
+    // arrastar pro lado troca a foto; tocar fora da foto fecha
+    var x0 = null, arrastou = false;
+    visor.addEventListener('pointerdown', function (e) { x0 = e.clientX; arrastou = false; });
+    visor.addEventListener('pointerup', function (e) {
+        if (x0 === null) return;
+        var dx = e.clientX - x0;
+        x0 = null;
+        if (Math.abs(dx) > 50) { arrastou = true; mostra(atual + (dx < 0 ? 1 : -1)); }
+    });
+    visor.addEventListener('click', function (e) {
+        if (!arrastou && e.target === visor) visor.close();
+        arrastou = false;
+    });
+
+    // ---------- Assinatura do rodapé: ocupa a largura toda ----------
+    var assinatura = document.getElementById('assinatura');
+    var largura = 0;
+    function ajusta() {
+        var caixa = assinatura.parentNode.clientWidth;
+        if (!caixa || caixa === largura) return;
+        largura = caixa;
+        assinatura.style.fontSize = '100px';
+        assinatura.style.fontSize = (100 * caixa / assinatura.getBoundingClientRect().width) + 'px';
+    }
+    ajusta();
+    window.addEventListener('resize', function () { requestAnimationFrame(ajusta); });
 })();
