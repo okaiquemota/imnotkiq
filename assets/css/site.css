@@ -1,0 +1,111 @@
+/* -------------------------------------------------------------------------
+   imnotkiq — irmão do site pessoal (okaiquemota.github.io/kaique.v2):
+   o nome no topo, a capa do último evento no meio com a assinatura por cima
+   e os drives embaixo.
+   A capa entra em preto e branco claro pelo CSS, então qualquer foto nova
+   já chega com o mesmo tratamento.
+------------------------------------------------------------------------- */
+:root {
+    --papel: #ffffff;
+    --tinta: #111111;
+    --cinza: #707070;
+
+    /* Times New Roman onde tiver; Tinos (o mesmo desenho) no Android e no Linux */
+    --f: "Times New Roman", Times, Tinos, "Liberation Serif", serif;
+
+    --margem: clamp(16px, 3vw, 40px);
+    color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--papel); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    margin: 0;
+    padding: env(safe-area-inset-top, 0px) max(var(--margem), env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(var(--margem), env(safe-area-inset-left, 0px));
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--f);
+    font-size: 15px;
+    line-height: 1.25;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+}
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+:focus-visible { outline: 1.5px solid var(--tinta); outline-offset: 3px; }
+
+/* ---------- Nome e descrição ---------- */
+.topo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 20px; padding-top: clamp(14px, 2.2vw, 24px); }
+.nome { display: inline-flex; align-items: center; min-height: 40px; }
+.sobre { margin: 0; color: var(--cinza); font-size: 12px; }
+
+/* ---------- Capa, assinatura e drives ---------- */
+.palco {
+    /* a foto se ajusta à largura e à altura da tela (sobrando lugar pros links);
+       a assinatura passa das bordas dela */
+    --w: min(max(230px, 34vw), 480px, calc((100svh - 210px) * 0.63));
+    --assin: min(var(--w) * 1.55, 94vw);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* em cima, o espaço que a ponta de cima da assinatura ocupa */
+    padding-block: calc(max(0px, var(--assin) * 0.5 - var(--w) * 0.65) + 20px) 20px;
+    overflow-x: clip;
+}
+.quadro { position: relative; width: var(--w); margin: 0; }
+.foto {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: #eeeeee;
+    filter: grayscale(1) contrast(0.82) brightness(1.18);
+}
+.assinatura {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    width: calc(var(--w) * 1.55);
+    max-width: 94vw;
+    height: auto;
+    transform: translate(-50%, -50%) rotate(-4deg);
+    pointer-events: none;
+}
+
+/* os drives começam onde a ponta de baixo da assinatura termina */
+.links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 28px;
+    margin-top: calc(max(0px, var(--assin) * 0.52 - var(--w) * 0.6) + clamp(16px, 2.4vw, 28px));
+}
+.links ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 16px; }
+.links a, .em-breve { display: inline-flex; align-items: center; min-height: 40px; }
+.em-breve { color: var(--cinza); }
+/* o Instagram vai como logo */
+.links .redes { gap: 0 6px; }
+.redes a { justify-content: center; min-width: 28px; }
+.logo { display: block; width: 17px; height: 17px; fill: currentColor; }
+@media (hover: hover) and (pointer: fine) {
+    .links a:hover, .nome:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .redes a:hover { color: var(--cinza); }
+}
+
+@media (max-width: 640px) {
+    .topo { flex-direction: column; }
+    .sobre { margin-top: -8px; }
+    .cidade { display: block; }
+    .palco { --w: min(72vw, calc((100svh - 340px) * 0.8)); }
+    .links { flex-direction: column; align-items: center; gap: 0; }
+    .links ul { gap: 0 14px; }
+    .links a, .em-breve { min-height: 36px; }
+}
+
+.base { padding-block: 0 clamp(14px, 2.2vw, 24px); color: var(--cinza); font-size: 13px; }
