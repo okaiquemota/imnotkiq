@@ -3,144 +3,43 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>imnotkiq · Drives dos eventos</title>
-    <meta name="description" content="imnotkiq, fotografia automotiva por Kaique Mota. As fotos de cada evento, no Drive.">
-    <meta name="theme-color" content="#0b0b0c">
+    <title>imnotkiq</title>
+    <meta name="description" content="imnotkiq: fotografia automotiva por Kaique Mota. As fotos de cada evento, no Drive.">
+    <meta name="theme-color" content="#ffffff">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="imnotkiq · Drives dos eventos">
+    <meta property="og:title" content="imnotkiq">
     <meta property="og:description" content="As fotos de cada evento, no Drive.">
     <meta property="og:image" content="https://okaiquemota.github.io/imnotkiq/fotos/ultimate-drift.jpg">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b0b0c'/%3E%3Cpolygon fill='%235b2cf6' points='42.7,28.6 55.6,45.1 72,39.1 60.9,52 66.9,60.7 53,61.1 43.5,71.5 42.6,61.5 28.2,61.4 43,51.6'/%3E%3C/svg%3E">
+    <link rel="icon" href="assets/img/assinatura.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..900;1,400..900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400&display=swap">
     <link rel="stylesheet" href="assets/css/site.css">
-    <script>
-        // Liga o movimento antes da pintura: a pagina nasce pronta para animar.
-        // Se o visitante pedir menos movimento, nada disso entra e o layout fica parado.
-        (function () {
-            var html = document.documentElement;
-            try {
-                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                    html.classList.add('anima-pre');
-                    if (!sessionStorage.getItem('imnotkiq_intro')) html.classList.add('intro-ativa');
-                }
-            } catch (e) {}
-        })();
-    </script>
 </head>
 <body>
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-        <symbol id="estrela" viewBox="26 26 48 48"><polygon points="42.7,28.6 55.6,45.1 72,39.1 60.9,52 66.9,60.7 53,61.1 43.5,71.5 42.6,61.5 28.2,61.4 43,51.6" fill="currentColor"/></symbol>
-    </svg>
-
-    <div class="intro" aria-hidden="true">
-        <svg class="intro-estrela"><use href="#estrela"/></svg>
-        <span class="intro-tag lbl"><span>001</span><span>imnotkiq</span></span>
-    </div>
-
-    <header class="topo wrap">
-        <div class="inner topo-in">
-            <a class="tagbar crop lbl" href="#inicio"><span>001</span><span>imnotkiq</span></a>
-            <a class="topo-link lbl" href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener" data-magnetico>Instagram ↗</a>
-        </div>
+    <header class="topo">
+        <a class="nome" href="./">imnotkiq</a>
+        <p class="sobre">Fotografia automotiva. <span class="cidade">As fotos de cada evento, no Drive.</span></p>
     </header>
 
-    <main id="inicio">
-        <!-- Topo: painéis em blocos -->
-        <section class="hero wrap" aria-label="Apresentação">
-            <div class="inner">
-                <span class="hline" aria-hidden="true"></span>
-                <span class="deco d1 hatch" data-vel="-60" aria-hidden="true"><span class="plus">+</span></span>
-                <span class="deco d2 hatch" data-vel="40" aria-hidden="true"></span>
-                <div class="comp">
-                    <div class="pA gridlines crop">
-                        <div class="tab lbl" aria-hidden="true"><span>Kaique Mota</span></div>
-                        <h1 class="name big" aria-label="imnotkiq"><span>imnot</span><span>kiq</span></h1>
-                        <p class="cap">Fotos dos eventos, no drive.</p>
-                        <div class="strip" aria-hidden="true"><span class="plus">+</span><span class="plus">+</span></div>
-                    </div>
-                    <div class="pB">
-                        <button class="logo-botao" type="button" aria-label="Estrela do imnotkiq"><svg class="logo" aria-hidden="true"><use href="#estrela"/></svg></button>
-                        <p class="s">Fotografia automotiva<br>Ribeirão Preto, SP</p>
-                    </div>
-                    <!-- Último evento: leva direto pro drive -->
-                    <a class="pC" id="pc">
-                        <span class="rule lbl" id="pc-k">Último evento</span>
-                        <span class="hatch pc-hatch" aria-hidden="true"></span>
-                        <span class="t" id="pc-t"></span>
-                        <span class="go lbl" id="pc-go"></span>
-                    </a>
-                    <a class="pD" id="pd" href="#drives">
-                        <span class="duo"><img id="pd-img" alt="" width="720" height="900"></span>
-                        <svg class="wire" viewBox="0 0 300 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                            <g fill="none" stroke="#0b0b0c" stroke-width="1.6">
-                                <ellipse cx="170" cy="380" rx="150" ry="230" transform="rotate(-24 170 380)" stroke-dasharray="10 9"/>
-                                <ellipse class="desenha" cx="170" cy="380" rx="128" ry="206" transform="rotate(-24 170 380)"/>
-                                <path class="desenha" d="M178 150 L118 420 M178 150 L250 410 M178 150 L190 440"/>
-                                <ellipse cx="184" cy="424" rx="68" ry="20" stroke-dasharray="7 6"/>
-                                <path d="M20 590 L290 120" stroke-dasharray="14 10" stroke="#f6f5f2"/>
-                            </g>
-                        </svg>
-                        <span class="code big" id="pd-code" aria-hidden="true"></span>
-                        <span class="go lbl">Todos os drives →</span>
-                    </a>
-                </div>
-                <span class="deco d3 hatch" data-vel="30" aria-hidden="true"></span>
-                <span class="deco d4 hatch" data-vel="30" aria-hidden="true"></span>
-                <span class="deco d5" data-vel="-30" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="deco d6 hatch" data-vel="50" aria-hidden="true"></span>
-            </div>
-        </section>
-
-        <!-- Faixa que corre -->
-        <div class="faixa" aria-hidden="true">
-            <div class="faixa-linha" id="faixa-1"></div>
-            <div class="faixa-linha contorno" id="faixa-2"></div>
-        </div>
-
-        <!-- Drives: um evento por linha, cada um com o botão do drive -->
-        <section class="drv wrap" id="drives" aria-labelledby="drv-t">
-            <div class="inner drv-grid">
-                <div class="drv-cab crop">
-                    <span class="hb hatch" aria-hidden="true"></span>
-                    <span class="plus" aria-hidden="true">+</span>
-                    <h2 class="big" id="drv-t">Drives</h2>
-                    <div class="foot lbl"><span id="drv-n"></span><span aria-hidden="true">+</span></div>
-                </div>
-                <div class="drv-lista">
-                    <div class="evlist" id="evlist"></div>
-                    <p class="drv-nota lbl">Baixa no original e marca @imnotkiq quando postar.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Letreiro -->
-        <section class="fim wrap" aria-hidden="true">
-            <div class="inner">
-                <p class="sync big" id="sync">imnotkiq</p>
-            </div>
-        </section>
+    <main class="palco">
+        <!-- A capa do evento mais novo (assets/js/eventos.js) -->
+        <figure class="quadro">
+            <img class="foto" id="capa" alt="" width="1080" height="1350">
+            <img class="assinatura" src="assets/img/assinatura.png" alt="Assinatura do Kaique Mota" width="1091" height="1162">
+        </figure>
+        <!-- Um link por evento, direto pro drive -->
+        <nav class="links" aria-label="Drives dos eventos">
+            <ul id="drives"></ul>
+            <ul class="redes">
+                <li><a href="https://www.instagram.com/imnotkiq" target="_blank" rel="noopener" aria-label="Instagram"><svg class="logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></a></li>
+            </ul>
+        </nav>
     </main>
 
-    <footer class="rodape wrap">
-        <div class="inner">
-            <div class="rodape-in lbl">
-                <span>© <span data-ano>2026</span> Kaique Mota</span>
-                <a href="https://www.instagram.com/imnotkiq/" target="_blank" rel="noopener">@imnotkiq ↗</a>
-                <a href="https://www.instagram.com/kiq.ham/" target="_blank" rel="noopener">@kiq.ham ↗</a>
-            </div>
-            <div class="rodape-hb hatch" aria-hidden="true"></div>
-        </div>
-    </footer>
-
-    <div class="aviso lbl crop" id="aviso" role="status" aria-live="polite"></div>
+    <footer class="base">© <span data-ano>2026</span> Kaique Mota</footer>
 
     <script src="assets/js/eventos.js"></script>
     <script src="assets/js/site.js"></script>
-    <script src="assets/js/vendor/gsap.min.js"></script>
-    <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
-    <script src="assets/js/vendor/lenis.min.js"></script>
-    <script src="assets/js/anima.js"></script>
 </body>
 </html>

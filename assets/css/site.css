@@ -1,373 +1,111 @@
 /* -------------------------------------------------------------------------
-   imnotkiq — pôster suíço em blocos, no escuro.
-   Preto e cinzas; o roxo é a única cor e marca o que leva pro drive.
-   Grade de 12 colunas no computador, 3 no tablet e 2 no celular.
-   Tudo aqui funciona parado: o anima.js liga html.anima e o movimento.
+   imnotkiq — irmão do site pessoal (okaiquemota.github.io/kaique.v2):
+   o nome no topo, a capa do último evento no meio com a assinatura por cima
+   e os drives embaixo.
+   A capa entra em preto e branco claro pelo CSS, então qualquer foto nova
+   já chega com o mesmo tratamento.
 ------------------------------------------------------------------------- */
 :root {
-    --black: #0b0b0c;
-    --panel: #161618;
-    --panel-2: #222226;
-    --hatch: #2c2c31;
-    --violet: #5b2cf6;
-    --violet-hi: #a891ff;
-    --line: rgba(246, 245, 242, 0.06);
-    --white: #f6f5f2;
-    --muted: rgba(246, 245, 242, 0.58);
+    --papel: #ffffff;
+    --tinta: #111111;
+    --cinza: #707070;
 
-    --f: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /* Times New Roman onde tiver; Tinos (o mesmo desenho) no Android e no Linux */
+    --f: "Times New Roman", Times, Tinos, "Liberation Serif", serif;
 
-    /* Medidas fluidas: crescem com a tela e param nos limites */
-    --margem: clamp(16px, 4vw, 56px);
-    --secao: clamp(72px, min(11vw, 16svh), 140px);
-    --largura: 1360px;
-    --toque: 44px;
-    color-scheme: dark;
+    --margem: clamp(16px, 3vw, 40px);
+    color-scheme: light;
 }
-/* Easter egg do codigo Konami: o roxo vira laranja */
-html.troca { --violet: #ff5418; --violet-hi: #ffb08a; }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { background: var(--black); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { background: var(--papel); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
     margin: 0;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: var(--black);
-    color: var(--white);
+    padding: env(safe-area-inset-top, 0px) max(var(--margem), env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(var(--margem), env(safe-area-inset-left, 0px));
+    background: var(--papel);
+    color: var(--tinta);
     font-family: var(--f);
-    font-size: 16px;
-    line-height: 1.3;
+    font-size: 15px;
+    line-height: 1.25;
     -webkit-font-smoothing: antialiased;
-    overflow-x: clip;
     -webkit-tap-highlight-color: transparent;
 }
-img { max-width: 100%; }
-[hidden] { display: none !important; }
 a { color: inherit; text-decoration: none; }
-button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--violet-hi); outline-offset: 3px; }
-::selection { background: var(--violet); color: var(--white); }
-p, h1, h2, h3, ul, ol { margin: 0; }
-ul, ol { list-style: none; padding: 0; }
+ul { list-style: none; margin: 0; padding: 0; }
+:focus-visible { outline: 1.5px solid var(--tinta); outline-offset: 3px; }
 
-.wrap {
-    padding-left: max(var(--margem), env(safe-area-inset-left, 0px));
-    padding-right: max(var(--margem), env(safe-area-inset-right, 0px));
-}
-.inner { max-width: var(--largura); margin-inline: auto; position: relative; }
+/* ---------- Nome e descrição ---------- */
+.topo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 20px; padding-top: clamp(14px, 2.2vw, 24px); }
+.nome { display: inline-flex; align-items: center; min-height: 40px; }
+.sobre { margin: 0; color: var(--cinza); font-size: 12px; }
 
-/* ---------- Peças do sistema ---------- */
-.lbl { font-size: 12px; font-weight: 700; text-transform: uppercase; line-height: 1.15; letter-spacing: 0; }
-.big { font-weight: 800; letter-spacing: -0.055em; line-height: 0.84; }
-.hatch { background-image: repeating-linear-gradient(-45deg, var(--hc, var(--hatch)) 0 3px, transparent 3px 12px); }
-.plus { position: absolute; font-weight: 300; font-size: 30px; line-height: 1; pointer-events: none; }
-.crop { position: relative; }
-.crop::before {
-    content: "";
-    position: absolute;
-    inset: -11px;
-    pointer-events: none;
-    --c: var(--cm, rgba(246, 245, 242, 0.32));
-    background:
-        linear-gradient(var(--c), var(--c)) 0 0 / 8px 1.5px, linear-gradient(var(--c), var(--c)) 0 0 / 1.5px 8px,
-        linear-gradient(var(--c), var(--c)) 100% 0 / 8px 1.5px, linear-gradient(var(--c), var(--c)) 100% 0 / 1.5px 8px,
-        linear-gradient(var(--c), var(--c)) 0 100% / 8px 1.5px, linear-gradient(var(--c), var(--c)) 0 100% / 1.5px 8px,
-        linear-gradient(var(--c), var(--c)) 100% 100% / 8px 1.5px, linear-gradient(var(--c), var(--c)) 100% 100% / 1.5px 8px;
-    background-repeat: no-repeat;
+/* ---------- Capa, assinatura e drives ---------- */
+.palco {
+    /* a foto se ajusta à largura e à altura da tela (sobrando lugar pros links);
+       a assinatura passa das bordas dela */
+    --w: min(max(230px, 34vw), 480px, calc((100svh - 210px) * 0.63));
+    --assin: min(var(--w) * 1.55, 94vw);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* em cima, o espaço que a ponta de cima da assinatura ocupa */
+    padding-block: calc(max(0px, var(--assin) * 0.5 - var(--w) * 0.65) + 20px) 20px;
+    overflow-x: clip;
 }
-.gridlines {
-    background-image: linear-gradient(to right, var(--line) 1px, transparent 1px), linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-    background-size: calc(100% / 5) 100%, 100% calc(100% / 4);
-}
-.duo { position: relative; display: block; overflow: hidden; background: var(--violet); }
-.duo img {
+.quadro { position: relative; width: var(--w); margin: 0; }
+.foto {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
-    filter: grayscale(1) contrast(1.2);
-    mix-blend-mode: luminosity;
-    transition: filter 0.35s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    background: #eeeeee;
+    filter: grayscale(1) contrast(0.82) brightness(1.18);
 }
-.chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 46px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: var(--black);
-    color: var(--white);
-    font-size: 12px;
-    font-weight: 700;
-}
-@media (hover: hover) and (pointer: fine) {
-    .duo:hover img, a:hover .duo img { filter: none; mix-blend-mode: normal; transform: scale(1.04); }
-}
-/* No toque nao existe hover: a foto aparece em cor quando o painel e tocado */
-.duo:active img, a:focus-visible .duo img { filter: none; mix-blend-mode: normal; }
-
-/* ---------- Topo ---------- */
-.topo { padding-block: clamp(14px, 2.4vw, 22px) 0; }
-.topo-in { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.tagbar {
-    display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: clamp(32px, 6vw, 64px);
-    min-width: min(58vw, 240px);
-    min-height: var(--toque);
-    background: var(--panel-2);
-    color: var(--white);
-    padding: 0 16px;
-}
-.topo-link { white-space: nowrap; display: inline-flex; align-items: center; min-height: var(--toque); padding-inline: 4px; }
-@media (hover: hover) and (pointer: fine) { .topo-link:hover { color: var(--violet-hi); } }
-
-/* ---------- Hero ---------- */
-.hero { position: relative; padding-block: clamp(36px, 6vw, 64px) clamp(110px, 14vw, 160px); overflow: hidden; }
-.comp { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-.pA {
-    grid-column: 1 / -1;
-    position: relative;
-    container-type: inline-size;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: clamp(330px, 92vw, 460px);
-    padding: 32px 14px 92px 58px;
-    background-color: var(--panel);
-}
-.tab {
+.assinatura {
     position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 44px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    padding-block: 18px;
-    background: var(--panel-2);
-    color: var(--muted);
-}
-.tab span { writing-mode: vertical-rl; transform: rotate(180deg); }
-.name { font-size: clamp(4rem, 19vw, 12.5rem); }
-@supports (font-size: 1cqi) {
-    .name { font-size: clamp(3.6rem, 31cqi, 13.5rem); }
-}
-.name > span { display: block; }
-.pA .cap {
-    position: absolute;
-    right: 16px;
-    bottom: 16px;
-    max-width: 15ch;
-    font-size: clamp(1.1rem, 0.9rem + 0.9vw, 1.9rem);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1;
-    text-align: right;
-    color: var(--muted);
-}
-.strip { position: absolute; left: 44px; bottom: 0; width: min(34%, 260px); height: 44px; background: var(--panel-2); }
-.strip .plus { color: var(--muted); font-size: 22px; top: 11px; }
-.strip .plus:first-child { left: 16px; }
-.strip .plus:last-child { right: 16px; }
-
-.pB { display: flex; flex-direction: column; gap: 10px; min-height: clamp(170px, 44vw, 220px); padding: 16px; background: var(--panel-2); }
-.logo-botao { display: block; width: 48px; height: 48px; margin: -4px 0 auto -4px; padding: 4px; border: 0; background: none; cursor: pointer; }
-.logo, .logo-botao svg { display: block; width: 40px; height: 40px; }
-.logo-botao svg { color: var(--violet-hi); }
-.pB .s { font-size: 12px; color: var(--muted); max-width: 22ch; }
-
-/* O painel roxo é o atalho pro drive do último evento */
-.pC { display: flex; flex-direction: column; gap: 14px; min-height: clamp(170px, 44vw, 220px); padding: 16px; background: var(--violet); color: var(--white); }
-.pC .rule { border-top: 2px solid var(--white); padding-top: 8px; }
-.pc-hatch { display: block; height: 26px; --hc: var(--black); }
-.pC .t { margin-top: auto; font-size: clamp(20px, 1rem + 1vw, 24px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
-.pC .go { align-self: flex-start; display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; background: var(--white); color: var(--black); transition: background 0.2s, color 0.2s; }
-.pC:not([href]) .go { background: none; padding: 0; min-height: 0; color: rgba(246, 245, 242, 0.75); }
-@media (hover: hover) and (pointer: fine) { a.pC[href]:hover .go { background: var(--black); color: var(--white); } }
-
-.pD { grid-column: 1 / -1; position: relative; container-type: inline-size; aspect-ratio: 4 / 5; max-width: 100%; overflow: hidden; }
-.pD .duo { position: absolute; inset: 0; }
-.pD .wire { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.pD::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 58px; background: var(--black); }
-.pD .code { position: absolute; left: 12px; top: 16px; writing-mode: vertical-rl; font-size: clamp(3.6rem, 30cqi, 8rem); color: var(--black); }
-.pD .go { position: absolute; z-index: 1; left: 33%; bottom: 20px; border-top: 2px solid var(--white); padding-top: 6px; transition: background 0.2s, color 0.2s; }
-@media (hover: hover) and (pointer: fine) { .pD:hover .go { background: var(--white); color: var(--black); } }
-
-/* Tablet: o painel grande em cima, os três menores lado a lado */
-@media (min-width: 641px) {
-    .comp { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .pA { padding: 40px 18px 96px 70px; }
-    .pB, .pC { min-height: 300px; padding: 18px; }
-    .pD { grid-column: auto; aspect-ratio: auto; min-height: 300px; }
-}
-/* Computador: as quatro peças na mesma linha, como no pôster */
-@media (min-width: 1000px) {
-    .comp { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(140px, auto)); }
-    .pA { grid-column: 1 / 8; grid-row: 1 / 5; min-height: min(600px, 74svh); padding-left: 76px; }
-    .pB { grid-column: 8 / 10; grid-row: 1 / 3; min-height: 0; }
-    .pC { grid-column: 8 / 10; grid-row: 3 / 5; min-height: 0; }
-    .pD { grid-column: 10 / 13; grid-row: 1 / 5; min-height: 0; }
-}
-
-.deco { position: absolute; z-index: 0; pointer-events: none; }
-.d1 { left: 7%; top: -110px; width: 150px; height: 240px; }
-.d1 .plus { left: 64px; top: 110px; color: var(--muted); }
-.d2 { right: -48px; top: -70px; width: min(30vw, 380px); height: 240px; }
-.d3 { left: 0; bottom: -74px; width: min(40vw, 300px); height: 22px; }
-.d4 { left: 0; bottom: -116px; width: min(40vw, 300px); height: 46px; }
-.d5 { right: 0; bottom: -130px; width: min(36vw, 280px); display: flex; flex-direction: column; gap: 14px; }
-.d5 i { display: block; height: 50px; background: var(--panel); }
-.d5 i:nth-child(2) { height: 20px; }
-.d5 i:nth-child(3) { height: 9px; margin-top: 40px; }
-.d6 { display: none; right: 0; bottom: -74px; width: min(20vw, 280px); height: 22px; }
-@media (min-width: 1000px) {
-    .d3, .d4 { left: 30%; width: min(22vw, 300px); }
-    .d5 { left: 56%; right: auto; width: min(20vw, 280px); }
-    .d6 { display: block; }
-}
-@media (max-width: 999px) { .d1, .d2 { display: none; } }
-.hline { position: absolute; left: -200%; right: -200%; top: 50%; height: 2px; background: var(--panel-2); z-index: 0; transform-origin: left center; }
-
-/* ---------- Faixa ---------- */
-.faixa { overflow: hidden; padding-block: clamp(14px, 2.4vw, 26px); border-block: 1px solid var(--panel-2); }
-.faixa-linha {
-    display: flex;
-    width: max-content;
-    font-size: clamp(2.4rem, 7vw, 6.5rem);
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    line-height: 0.95;
-    text-transform: uppercase;
-    white-space: nowrap;
-    will-change: transform;
-}
-.faixa-linha .item { display: inline-flex; align-items: center; gap: 0.25em; padding-right: 0.25em; }
-.faixa-estrela { width: 0.6em; height: 0.6em; flex: none; color: var(--violet); }
-.faixa-linha.contorno { color: transparent; -webkit-text-stroke: 1.5px rgba(246, 245, 242, 0.4); }
-.faixa-linha.contorno .faixa-estrela { color: var(--panel-2); }
-.faixa-linha + .faixa-linha { margin-top: 0.06em; }
-@media (max-width: 640px) { .faixa-linha.contorno { -webkit-text-stroke-width: 1px; } }
-
-/* ---------- Drives ---------- */
-.drv { padding-block: var(--secao); }
-#drives { scroll-margin-top: 16px; }
-.drv-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 4vw, 40px); align-items: start; }
-@media (min-width: 900px) {
-    .drv-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 4vw, 56px); }
-    .drv-cab { position: sticky; top: 24px; }
-}
-.drv-cab {
-    display: flex;
-    flex-direction: column;
-    min-height: clamp(260px, 60vw, 380px);
-    padding: clamp(24px, 4vw, 48px) clamp(96px, 12vw, 120px) clamp(22px, 3vw, 40px) clamp(20px, 4vw, 40px);
-    background: var(--panel);
-}
-.drv-cab .hb { position: absolute; right: 0; top: 0; bottom: 0; width: clamp(64px, 9vw, 96px); --hc: var(--violet); }
-.drv-cab > .plus { left: clamp(20px, 4vw, 40px); top: clamp(24px, 4vw, 44px); color: var(--muted); }
-.drv-cab h2 { margin-top: auto; font-size: clamp(2.8rem, 9vw, 6.4rem); text-transform: uppercase; }
-@supports (font-size: 1cqi) {
-    .drv-cab { container-type: inline-size; }
-    .drv-cab h2 { font-size: clamp(2.2rem, 22cqi, 7rem); }
-}
-.drv-cab .foot { display: flex; justify-content: space-between; margin-top: clamp(28px, 5vw, 56px); color: var(--muted); }
-
-/* Cada evento é uma linha; a linha inteira abre o drive */
-.evlist { display: grid; gap: 10px; }
-.evc {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 14px 24px;
-    min-height: 120px;
-    padding: 22px clamp(18px, 3vw, 28px);
-    background: var(--panel);
-    transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), background 0.2s;
-}
-.evc .chip { background: var(--black); }
-.evc .quando { display: block; color: var(--muted); }
-.evc .n { display: block; margin-top: 8px; font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.8rem); font-weight: 800; letter-spacing: -0.05em; line-height: 0.95; overflow-wrap: anywhere; }
-.evc .acao { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: var(--toque); padding: 0 18px; background: var(--violet); color: var(--white); white-space: nowrap; transition: background 0.2s, color 0.2s; }
-.evc .acao.off { background: none; color: var(--muted); box-shadow: inset 0 0 0 1.5px var(--panel-2); }
-@media (hover: hover) and (pointer: fine) {
-    a.evc:hover { background: var(--panel-2); transform: translateX(6px); }
-    a.evc:hover .acao { background: var(--white); color: var(--black); }
-}
-@media (max-width: 560px) {
-    .evc { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
-    .evc .acao { grid-column: 1 / -1; justify-content: space-between; }
-}
-.drv-nota { margin-top: 18px; color: var(--muted); }
-
-/* ---------- Letreiro ---------- */
-.fim { overflow: hidden; }
-.sync { position: relative; font-size: 30vw; line-height: 0.78; letter-spacing: -0.07em; text-transform: uppercase; white-space: nowrap; color: var(--white); width: max-content; transform: translateX(-2%); }
-
-/* ---------- Rodapé ---------- */
-.rodape { padding-block: 22px calc(22px + env(safe-area-inset-bottom, 0px)); }
-.rodape-in { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 28px; color: var(--muted); }
-.rodape-in a { display: inline-flex; align-items: center; min-height: var(--toque); }
-.rodape-in > span { line-height: var(--toque); }
-@media (hover: hover) and (pointer: fine) { .rodape-in a:hover { color: var(--white); } }
-.rodape-hb { height: 22px; margin-top: 18px; --hc: var(--violet); }
-
-/* ---------- Aviso (easter eggs) ---------- */
-.aviso {
-    position: fixed;
-    z-index: 90;
-    left: max(16px, env(safe-area-inset-left, 0px));
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    display: inline-flex;
-    gap: 28px;
-    padding: 12px 16px;
-    background: var(--panel);
-    color: var(--white);
-    border: 1px solid var(--panel-2);
-    opacity: 0;
-    transform: translateY(16px);
+    left: 50%;
+    top: 52%;
+    width: calc(var(--w) * 1.55);
+    max-width: 94vw;
+    height: auto;
+    transform: translate(-50%, -50%) rotate(-4deg);
     pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.aviso.on { opacity: 1; transform: none; }
-.aviso:empty { display: none; }
-.aviso b { color: var(--violet-hi); }
 
-/* ---------- Movimento: só com html.anima ---------- */
-.intro { display: none; }
-.m { display: inline-block; vertical-align: top; white-space: nowrap; }
-.l { display: inline-block; will-change: transform; }
-
-/* Intro da primeira visita: some sozinha se o script nao rodar */
-html.intro-ativa .intro {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: grid;
-    place-items: center;
-    align-content: center;
-    gap: 22px;
-    background: var(--black);
-    color: var(--violet);
-    animation: intro-some 0s 4s forwards;
+/* os drives começam onde a ponta de baixo da assinatura termina */
+.links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 28px;
+    margin-top: calc(max(0px, var(--assin) * 0.52 - var(--w) * 0.6) + clamp(16px, 2.4vw, 28px));
 }
-.intro-estrela { width: clamp(96px, 16vw, 160px); height: clamp(96px, 16vw, 160px); }
-.intro-tag { display: inline-flex; gap: 64px; padding: 11px 16px; background: var(--panel-2); color: var(--white); }
-@keyframes intro-some { to { visibility: hidden; opacity: 0; } }
-html.intro-ativa { overflow: hidden; }
-
-/* Antes do script: os painéis esperam; se o script falhar, aparecem sozinhos */
-html.anima-pre .comp > *, html.anima-pre .name { opacity: 0; animation: aparece 0s 2.6s forwards; }
-@keyframes aparece { to { opacity: 1; } }
-
-/* Marca de pneu (easter egg) */
-.pneus { position: fixed; inset: 0; z-index: 80; width: 100%; height: 100%; pointer-events: none; }
-
-@media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    *, *::before, *::after { transition: none !important; animation: none !important; }
+.links ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 16px; }
+.links a, .em-breve { display: inline-flex; align-items: center; min-height: 40px; }
+.em-breve { color: var(--cinza); }
+/* o Instagram vai como logo */
+.links .redes { gap: 0 6px; }
+.redes a { justify-content: center; min-width: 28px; }
+.logo { display: block; width: 17px; height: 17px; fill: currentColor; }
+@media (hover: hover) and (pointer: fine) {
+    .links a:hover, .nome:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .redes a:hover { color: var(--cinza); }
 }
+
+@media (max-width: 640px) {
+    .topo { flex-direction: column; }
+    .sobre { margin-top: -8px; }
+    .cidade { display: block; }
+    .palco { --w: min(72vw, calc((100svh - 340px) * 0.8)); }
+    .links { flex-direction: column; align-items: center; gap: 0; }
+    .links ul { gap: 0 14px; }
+    .links a, .em-breve { min-height: 36px; }
+}
+
+.base { padding-block: 0 clamp(14px, 2.2vw, 24px); color: var(--cinza); font-size: 13px; }
